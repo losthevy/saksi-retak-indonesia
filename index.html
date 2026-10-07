@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SAKSI RETAK — Prototipe</title>
+<style>
+:root{--bg:#f6f2e9;--card:#fffdf8;--ink:#16253f;--mut:#5f697c;--line:#e4dccb;--navy:#16295a;--acc:#e07b1f;--ok:#2e8b57;--bad:#c8283c;--r:20px;--sh:0 6px 20px #16295a14}
+@media(prefers-color-scheme:dark){:root{--bg:#0e1626;--card:#172138;--ink:#eef2fa;--mut:#a3aec4;--line:#2a3856;--navy:#0b1430;--sh:0 6px 20px #0006}}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{font:16px/1.55 "Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--ink);padding-bottom:92px}
+h1,h2,h3{font-family:Georgia,"Times New Roman",serif;line-height:1.2}h2{font-size:24px;margin-bottom:4px}h3{font-size:19px}
+header{background:linear-gradient(135deg,#16295a,#243f86);color:#fff;padding:12px 18px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;position:sticky;top:0;z-index:5;box-shadow:0 4px 16px #0004}
+header b{font:700 21px Georgia,serif;letter-spacing:.6px;flex:1}
+header select{min-height:42px;border-radius:12px;border:0;padding:0 12px;font:inherit;background:#fff;color:#16253f}
+.net{font-size:13px;padding:5px 12px;border-radius:99px;background:#ffffff26;font-weight:600}
+main{max-width:720px;margin:0 auto;padding:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px;margin-bottom:16px;box-shadow:var(--sh)}
+.hero{background:linear-gradient(135deg,#16295a,#2b4a9a);color:#fff;border-radius:24px;padding:26px 22px;margin-bottom:16px;box-shadow:var(--sh);display:flex;gap:18px;align-items:center}
+.hero .big{font:700 56px Georgia,serif;color:#ffc47a;line-height:1}.hero p{color:#d5def2;margin-top:8px}
+.ring{--p:0;flex:none;width:84px;height:84px;border-radius:50%;background:conic-gradient(#ffc47a calc(var(--p)*1%),#ffffff2b 0);display:grid;place-items:center}
+.ring span{width:66px;height:66px;border-radius:50%;background:#1c3272;display:grid;place-items:center;font-weight:700}
+.next{display:flex;justify-content:space-between;align-items:center;gap:12px;background:#e07b1f18;border:2px solid var(--acc)}
+.steps{display:flex;gap:8px;margin:14px 0}
+.step{flex:1;text-align:center;padding:12px 4px;border-radius:14px;background:var(--bg);border:2px solid var(--line);font-size:13px;font-weight:700}
+.step.done{border-color:var(--ok);color:var(--ok);background:#2e8b5714}
+.btn{min-height:48px;padding:0 20px;border-radius:14px;border:0;background:var(--navy);color:#fff;font:700 16px inherit;cursor:pointer;transition:transform .12s,box-shadow .12s;box-shadow:0 3px 10px #16295a33}
+.btn:active,.chip:active,.room:active{transform:scale(.97)}
+.btn.acc{background:var(--acc)}.btn.ghost{background:transparent;color:var(--ink);border:2px solid var(--line);box-shadow:none}
+button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #6aa8ff;outline-offset:2px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 16px}
+.chip{min-height:46px;padding:0 16px;border-radius:99px;border:2px solid var(--line);background:var(--card);color:var(--ink);font:600 14px inherit;cursor:pointer;transition:.15s}
+.chip[aria-pressed=true]{color:#fff;border-color:transparent;transform:scale(1.04);box-shadow:0 3px 10px #0003}
+.room{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 14px 14px 16px;border:1px solid var(--line);border-left:6px solid var(--c,#8a93a6);border-radius:14px;margin-bottom:10px;cursor:pointer;background:var(--card);width:100%;text-align:left;color:var(--ink);font:inherit;transition:.15s}
+.room:hover{box-shadow:var(--sh)}.room.on{outline:3px solid var(--acc)}
+.dots{display:inline-flex;gap:4px;margin-right:6px;vertical-align:middle}.dots i{width:9px;height:9px;border-radius:50%;background:var(--line)}
+.tag{display:inline-block;padding:3px 11px;border-radius:99px;color:#fff;font-size:13px;font-weight:700;white-space:nowrap}
+input[type=text],select.f,textarea{width:100%;min-height:46px;padding:9px 13px;border-radius:12px;border:2px solid var(--line);background:var(--card);color:var(--ink);font:inherit}
+table{width:100%;border-collapse:collapse;font-size:15px}td,th{padding:10px 6px;border-bottom:1px solid var(--line);text-align:left}th{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.5px}
+.gauge{height:20px;background:var(--bg);border-radius:99px;position:relative;overflow:hidden;border:1px solid var(--line)}
+.gauge i{display:block;height:100%;border-radius:99px;transition:width .6s}.gauge u{position:absolute;top:0;bottom:0;left:20%;border-left:3px dashed var(--ink)}
+.idx{font:700 60px Georgia,serif;line-height:1.1}
+.empty{text-align:center;padding:26px 10px;color:var(--mut)}.empty b{display:block;font-size:34px}
+.note{background:#c8283c18;border:2px dashed var(--bad);border-radius:14px;padding:12px 14px;font-size:14px;margin:10px 0}
+nav{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--line);display:flex;justify-content:center;gap:6px;padding:8px 8px calc(8px + env(safe-area-inset-bottom));z-index:5;box-shadow:0 -6px 20px #16295a14}
+nav button{flex:1;max-width:160px;min-height:56px;border:0;border-radius:14px;background:transparent;color:var(--mut);font:700 12px inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;transition:.2s}
+nav button span{font-size:22px;line-height:1}nav button[aria-current=true]{background:var(--navy);color:#fff}
+#toast{position:fixed;left:50%;bottom:104px;transform:translate(-50%,12px);background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:14px;opacity:0;transition:.3s;pointer-events:none;z-index:9;max-width:92%;display:flex;gap:14px;align-items:center;box-shadow:var(--sh)}
+#toast.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}#toast button{background:none;border:0;color:#ffc47a;font:700 15px inherit;cursor:pointer;min-height:36px}
+#app.in>*{animation:up .35s both}#app.in>*:nth-child(2){animation-delay:.06s}#app.in>*:nth-child(3){animation-delay:.12s}
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media(max-width:480px){.hero{flex-direction:column;align-items:flex-start}.hero .big{font-size:46px}}
+small,.mut{color:var(--mut)}
+</style></head><body>
+<header><b>SAKSI RETAK</b><span class="net" id="net"></span>
+<select id="role" aria-label="Peran pengguna"><option value="relawan">Pelajar relawan</option><option value="fasil">Fasilitator dinas</option><option value="pantau">Pemantau Kemendikdasmen</option></select></header>
+<main id="app"></main><nav id="nav" aria-label="Menu utama"></nav><div id="toast" role="status" aria-live="polite"></div>
+<script>
+const K=['Atap','Plafon','Dinding','Kusen','Lantai'],C=['Baik','Rusak ringan','Rusak sedang','Rusak berat'],COL=['#2e8b57','#b58f00','#e07b1f','#c8283c'];
+const OTH=[['SDN Waelengga 2',8,0],['SDN Rana Mese',15,1],['SMPN 3 Borong',35,3],['SDN Lete (contoh)',55,4]];
+let lastTab,U;const P={};const IC={home:'🏠',potret:'📷',timbang:'⚖️',ragu:'🛑',rekap:'📋'};const buzz=()=>{try{navigator.vibrate(25)}catch(e){}}; // foto hanya di memori, tidak disimpan
+let S={role:'relawan',tab:'home',school:'SDN Contoh 1',online:true,rooms:[],sel:null,dec:{},seq:0};
+try{const x=JSON.parse(localStorage.getItem('saksi')||'null');if(x)S=Object.assign(S,x)}catch(e){}
+const save=()=>{try{localStorage.setItem('saksi',JSON.stringify(S))}catch(e){}};
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const $=id=>document.getElementById(id);
+const cls=r=>r.comp.every(v=>v!==null)?Math.max(...r.comp):null;
+const tag=i=>i===null?'<span class="tag" style="background:#8a93a6">Belum lengkap</span>':`<span class="tag" style="background:${COL[i]}">${C[i]}</span>`;
+function calc(){const m=S.rooms.filter(r=>cls(r)!==null&&r.dap!==null);const d=m.filter(r=>cls(r)!==r.dap);return{n:m.length,d,idx:m.length?Math.round(d.length/m.length*100):null}}
+function toast(t,u){const e=$('toast');U=u;e.innerHTML=esc(t)+(u?'<button data-act="undo">Urungkan</button>':'');e.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>e.classList.remove('on'),u?5000:2600)}
+const TABS={relawan:[['home','Beranda'],['potret','Potret'],['timbang','Timbang']],fasil:[['home','Beranda'],['ragu','Meja Ragu'],['rekap','Rekap']],pantau:[['home','Beranda'],['rekap','Rekap']]};
+function render(){
+ $('role').value=S.role;const q=S.rooms.filter(r=>!r.sync).length;
+ $('net').textContent=(S.online?'● Daring':'○ Luring')+(q?` · ${q} menunggu`:'');
+ if(!TABS[S.role].some(t=>t[0]===S.tab))S.tab='home';
+ $('nav').innerHTML=TABS[S.role].map(t=>`<button data-tab="${t[0]}" ${S.tab===t[0]?'aria-current="true"':''}><span>${IC[t[0]]}</span>${t[1]}</button>`).join('');
+ $('app').className=S.tab!==lastTab?'in':'';lastTab=S.tab;$('app').innerHTML=V[S.tab]();save();
+}
+const V={
+home(){const c=calc(),a=S.rooms.some(r=>cls(r)!==null),b=c.n>0,d=c.idx!==null&&Object.keys(S.dec).length>0||(c.idx!==null&&c.idx<=20);
+ const done=[a,b,d].filter(Boolean).length,nx=!a?['potret','Mulai memotret ruang']:!b?['timbang','Lanjut menimbang']:!d?['ragu','Buka Meja Ragu']:['rekap','Lihat Daftar Prioritas'];
+ return `<section class="hero"><div class="ring" style="--p:${done*33.4}" aria-label="${done} dari 3 langkah selesai"><span>${done}/3</span></div><div><div class="big">19,5%</div><p>sasaran revitalisasi 2025 gugur di tahap verifikasi. SAKSI RETAK menambah satu pembanding independen sebelum SK terbit: <b>Memotret · Menimbang · Menahan</b>.</p></div></section>
+ ${TABS[S.role].some(t=>t[0]===nx[0])?`<div class="card next"><div><small>LANGKAH BERIKUTNYA</small><br><b>${nx[1]}</b></div><button class="btn acc" data-tab="${nx[0]}">Lanjut →</button></div>`:''}
+ <div class="card"><h2>Mulai dari mana?</h2><div class="steps"><div class="step ${a?'done':''}">1 Potret Ruang ${a?'✓':''}</div><div class="step ${b?'done':''}">2 Timbang ${b?'✓':''}</div><div class="step ${d?'done':''}">3 Meja Ragu ${d?'✓':''}</div></div>
+ <label for="sn"><b>Nama sekolah</b></label><input id="sn" type="text" value="${esc(S.school)}" maxlength="60" data-act="school">
+ <div class="row" style="margin-top:14px"><button class="btn acc" data-act="demo">Muat data contoh</button><button class="btn ghost" data-act="net">${S.online?'Simulasikan tanpa sinyal':'Kembali daring'}</button><button class="btn ghost" data-act="reset">Hapus data</button></div></div>
+ <div class="card"><h3>Janji perlindungan</h3><ul style="padding-left:20px;margin-top:6px"><li>Hanya ruang kosong di luar jam pelajaran, tanpa wajah siswa.</li><li>Foto tidak disimpan di prototipe ini; hanya kelas kondisi yang dicatat.</li><li><b>Hasil foto pemuda TIDAK dipakai untuk penilaian akreditasi.</b></li></ul></div>`},
+potret(){const r=S.rooms.find(x=>x.id===S.sel);
+ const list=S.rooms.map(x=>`<button class="room ${x.id===S.sel?'on':''}" style="--c:${cls(x)===null?'#8a93a6':COL[cls(x)]}" data-sel="${x.id}"><span><b>${esc(x.name)}</b><br><span class="dots">${x.comp.map(v=>`<i style="${v===null?'':'background:'+COL[v]}"></i>`).join('')}</span><small>${x.sync?'Terkirim':'Antre, menunggu sinyal'}</small></span>${tag(cls(x))}</button>`).join('')||'<div class="empty"><b>🏫</b>Belum ada ruang. Ketik nama ruang di atas, lalu tekan Tambah.</div>';
+ let form='';if(r)form=`<div class="card" id="form"><h3>${esc(r.name)}</h3><div class="gauge" style="margin:8px 0"><i style="width:${r.comp.filter(v=>v!==null).length*20}%;background:var(--acc)"></i></div><small>${r.comp.filter(v=>v!==null).length} dari 5 komponen terisi</small><p class="mut">Pilih kondisi tiap komponen. Kelas ruang mengikuti komponen yang paling rusak.</p>`+K.map((k,i)=>`<div><b>${k}</b><div class="chips" role="group" aria-label="${k}">${C.map((c,j)=>`<button class="chip" data-comp="${i}:${j}" aria-pressed="${r.comp[i]===j}" ${r.comp[i]===j?`style="background:${COL[j]}"`:''}>${r.comp[i]===j?'✓ ':''}${c}</button>`).join('')}</div></div>`).join('')+
+  `<label class="btn ghost" style="display:inline-flex;align-items:center;margin-bottom:8px">📷 Ambil foto<input type="file" accept="image/*" capture="environment" data-act="photo" hidden></label>${P[r.id]?`<img class="prev" src="${P[r.id]}" alt="Foto ruang">`:''}${r.t?`<p><small>Terkunci: ${esc(r.t)} · ${esc(r.loc||'lokasi tidak tersedia')}</small></p>`:''}
+  <label class="row" style="margin:10px 0"><input type="checkbox" id="pv" ${r.pv?'checked':''} data-act="pv" style="width:22px;height:22px"> Ruang kosong dan tanpa wajah siswa</label>
+  <div class="row"><span>Kelas ruang:</span>${tag(cls(r))}</div><div class="row" style="margin-top:12px"><button class="btn" data-act="saveroom">Simpan ruang</button><button class="btn ghost" data-act="delroom">Hapus</button></div></div>`;
+ return `<div class="card"><h2>Potret Ruang</h2><div class="row" style="margin:10px 0"><input id="rn" type="text" placeholder="Nama ruang, mis. Kelas 3A" maxlength="30" style="flex:1"><button class="btn" data-act="addroom">Tambah</button></div>${list}</div>${form}`},
+timbang(){const c=calc();
+ const rows=S.rooms.map(r=>`<tr><td>${esc(r.name)}</td><td>${tag(cls(r))}</td><td><select class="f" data-dap="${r.id}" aria-label="Kelas Dapodik ${esc(r.name)}"><option value="">Pilih</option>${C.map((x,i)=>`<option value="${i}" ${r.dap===i?'selected':''}>${x}</option>`).join('')}</select></td><td>${cls(r)===null||r.dap===null?'–':cls(r)===r.dap?'<b style="color:var(--ok)">Sama</b>':'<b style="color:var(--bad)">Beda</b>'}</td></tr>`).join('');
+ const over=c.idx!==null&&c.idx>20;
+ return `<div class="card"><h2>Timbang Dua Sumber</h2><p class="mut">Bandingkan kelas dari foto dengan isian kondisi ruang di Dapodik (diisi operator sekolah).</p>
+ ${S.rooms.length?`<div style="overflow-x:auto"><table><tr><th>Ruang</th><th>Foto</th><th>Dapodik</th><th></th></tr>${rows}</table></div>`:'<p class="mut" style="margin-top:10px">Belum ada ruang. Buka tab Potret atau muat data contoh di Beranda.</p>'}</div>
+ <div class="card"><div class="mut">Indeks Selisih Kondisi</div><div class="idx" style="color:${over?'var(--bad)':'var(--ok)'}">${c.idx===null?'–':c.idx+'%'}</div>
+ <div class="gauge" aria-hidden="true"><i style="width:${c.idx||0}%;background:${over?'var(--bad)':'var(--ok)'}"></i><u></u></div><small>Garis putus-putus = ambang 20%. ${c.n?`${c.d.length} dari ${c.n} ruang berbeda.`:''}</small>
+ <p style="margin-top:10px"><b>${c.idx===null?'Lengkapi foto dan isian Dapodik untuk melihat indeks.':over?'Di atas ambang: sekolah dikirim ke Meja Ragu sebelum SK terbit.':'Di bawah ambang: sekolah langsung masuk Daftar Prioritas.'}</b></p></div>`},
+ragu(){const c=calc();if(c.idx===null||c.idx<=20)return `<div class="card"><h2>Meja Ragu</h2><p class="mut">${c.idx===null?'Belum ada indeks yang dihitung.':'Sekolah ini di bawah ambang 20% dan langsung masuk Daftar Prioritas.'}</p></div>`;
+ const dec=S.dec[S.school];
+ return `<div class="card"><h2>Meja Ragu: ${esc(S.school)}</h2><p>Indeks <b style="color:var(--bad)">${c.idx}%</b>. Cek langsung ruang berikut sebelum SK terbit:</p><ul style="padding-left:20px;margin:8px 0 14px">${c.d.map(r=>`<li><b>${esc(r.name)}</b>: foto ${C[cls(r)]}, Dapodik ${C[r.dap]}</li>`).join('')}</ul>
+ ${dec?`<div class="note" style="border-color:var(--ok);background:#2e8b5718"><b>Keputusan tercatat:</b> ${esc(dec.v)}${dec.n?' — '+esc(dec.n):''}</div>`:''}
+ <label for="dv"><b>Hasil pengecekan langsung</b></label><select id="dv" class="f"><option>Dapodik perlu dikoreksi</option><option>Foto relawan perlu diulang</option><option>Data sesuai kondisi lapangan</option></select>
+ <label for="dn" style="display:block;margin-top:10px"><b>Catatan</b></label><textarea id="dn" rows="2" maxlength="200"></textarea>
+ <button class="btn acc" style="margin-top:12px" data-act="decide">Catat keputusan</button></div>`},
+rekap(){const c=calc();const me=[S.school,c.idx===null?0:c.idx,S.rooms.filter(r=>cls(r)===3).length,true];
+ const all=[me,...OTH.map(o=>[o[0],o[1],o[2],false])].sort((a,b)=>b[2]-a[2]||b[1]-a[1]);
+ return `<div class="card"><h2>Daftar Prioritas</h2><p class="mut">Diurutkan dari ruang rusak berat terbanyak. Sekolah lain hanyalah contoh ilustrasi.</p><div style="overflow-x:auto"><table><tr><th>#</th><th>Sekolah</th><th>Indeks</th><th>Rusak berat</th><th>Status</th></tr>${all.map((a,i)=>`<tr><td>${i+1}</td><td>${a[3]?'<b>'+esc(a[0])+'</b>':esc(a[0])}</td><td>${a[1]}%</td><td>${a[2]}</td><td>${a[1]>20?(S.dec[a[0]]?'Ditinjau':'Meja Ragu'):'Siap SK'}</td></tr>`).join('')}</table></div>
+ <div class="row" style="margin-top:14px"><button class="btn" data-act="csv">Unduh rekap (CSV)</button></div></div>
+ <div class="card"><div class="mut">Target uji coba</div><b>Porsi sasaran gugur di bawah 10% (dasar nasional 2025: 19,5%)</b></div>`}
+};
+document.addEventListener('click',e=>{
+ const t=e.target.closest('[data-tab],[data-sel],[data-comp],[data-act]');if(!t)return;
+ const r=S.rooms.find(x=>x.id===S.sel);
+ if(t.dataset.tab){S.tab=t.dataset.tab;render();scrollTo(0,0);return}
+ if(t.dataset.sel){S.sel=+t.dataset.sel;render();const f=$('form');if(f)f.scrollIntoView({behavior:'smooth',block:'start'});return}
+ if(t.dataset.comp&&r){const[i,j]=t.dataset.comp.split(':').map(Number);r.comp[i]=j;buzz();render();return}
+ const a=t.dataset.act;
+ if(a==='demo'){S.school='SDN Contoh 1';S.rooms=[[1,1,2,1,0,1],[0,0,1,0,0,0],[3,2,3,2,2,2],[1,1,1,0,1,1],[2,2,3,1,2,3]].map((x,i)=>({id:++S.seq,name:'Kelas '+(i+1),comp:x.slice(0,5),dap:x[5],t:null,sync:true}));S.dec={};render();toast('Data contoh dimuat. Buka Timbang.')}
+ if(a==='net'){S.online=!S.online;if(S.online&&S.rooms.some(r=>!r.sync)){S.rooms.forEach(r=>r.sync=true);toast('Antrean terkirim otomatis')}render()}
+ if(a==='reset'&&confirm('Hapus semua data prototipe?')){S.rooms=[];S.dec={};S.sel=null;render()}
+ if(a==='addroom'){const n=$('rn').value.trim();if(!n)return toast('Isi nama ruang dulu');const o={id:++S.seq,name:n,comp:[null,null,null,null,null],dap:null,sync:true};S.rooms.push(o);S.sel=o.id;render()}
+ if(a==='undo'&&U){U();U=null;$('toast').classList.remove('on')}
+ if(a==='delroom'&&r){const bk=r,ph=P[r.id];S.rooms=S.rooms.filter(x=>x!==r);S.sel=null;render();toast('Ruang dihapus',()=>{S.rooms.push(bk);if(ph)P[bk.id]=ph;S.sel=bk.id;render()})}
+ if(a==='saveroom'&&r){if(cls(r)===null)return toast('Lengkapi kelima komponen');if(!r.pv)return toast('Centang: ruang kosong, tanpa wajah siswa');r.sync=S.online;S.sel=null;buzz();render();scrollTo({top:0,behavior:'smooth'});toast(S.online?'Ruang tersimpan':'Tersimpan di ponsel, terkirim saat ada sinyal')}
+ if(a==='decide'){S.dec[S.school]={v:$('dv').value,n:$('dn').value.trim()};render();toast('Keputusan dicatat. Sekolah ditinjau.')}
+ if(a==='csv'){const c=calc();let s='Sekolah,Ruang,Kelas foto,Kelas Dapodik\n';S.rooms.forEach(r=>{s+=[S.school,r.name,cls(r)===null?'':C[cls(r)],r.dap===null?'':C[r.dap]].map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')+'\n'});const u=URL.createObjectURL(new Blob([s],{type:'text/csv'}));const l=document.createElement('a');l.href=u;l.download='rekap-saksi-retak.csv';l.click();URL.revokeObjectURL(u)}
+});
+document.addEventListener('change',e=>{const t=e.target,r=S.rooms.find(x=>x.id===S.sel);
+ if(t.dataset.dap){const o=S.rooms.find(x=>x.id==t.dataset.dap);o.dap=t.value===''?null:+t.value;render()}
+ if(t.dataset.act==='pv'&&r){r.pv=t.checked;save()}
+ if(t.dataset.act==='school'){S.school=t.value.trim()||'Sekolah';save()}
+ if(t.dataset.act==='photo'&&r&&t.files[0]){const f=new FileReader();f.onload=()=>{P[r.id]=f.result;r.t=new Date().toLocaleString('id-ID');r.loc='mencari lokasi…';render();
+  try{navigator.geolocation.getCurrentPosition(p=>{r.loc=p.coords.latitude.toFixed(3)+', '+p.coords.longitude.toFixed(3);render()},()=>{r.loc=null;render()},{timeout:5000})}catch(x){r.loc=null;render()}};f.readAsDataURL(t.files[0])}
+});
+$('role').addEventListener('change',e=>{S.role=e.target.value;S.tab='home';render()});
+render();
+</script></body></html>
